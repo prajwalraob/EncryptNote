@@ -110,13 +110,16 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AutofacConfig.cs" />
+    <Compile Include="Base85Converter.cs" />
     <Compile Include="GlobalVariables.cs" />
     <Compile Include="INotesAction.cs" />
+    <Compile Include="ISerializeNote.cs" />
     <Compile Include="Models\DisplayNoteModel.cs" />
     <Compile Include="Models\IDisplayNoteModel.cs" />
     <Compile Include="Models\INoteItemModel.cs" />
     <Compile Include="Models\NoteItemModel.cs" />
     <Compile Include="NotesAction.cs" />
+    <Compile Include="SerializeNote.cs" />
     <Compile Include="ViewModels\Command.cs" />
     <Compile Include="ViewModels\FlowDocumentConverter.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -192,9 +195,6 @@
     <Resource Include="Views\Icons\undo.png" />
     <Content Include="Views\Icons\undo.svg" />
     <Resource Include="icon.ico" />
-    <Content Include="Page.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\MainWindow.xaml">

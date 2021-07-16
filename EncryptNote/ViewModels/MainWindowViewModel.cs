@@ -72,15 +72,16 @@ namespace EncryptNote.ViewModels
             {
                 MainWindow mWnd = wnd as MainWindow;
                 INotesAction notesAction = scope.Resolve<INotesAction>();
+                FlowDocumentConverter converter = new FlowDocumentConverter();
 
                 if (LastSelectedNote != null)
                 {
-                    XmlDocument noteDocument = FlowDocumentConverter.Convert(mWnd.richTextBox.Document);
+                    XmlDocument noteDocument = converter.Convert(mWnd.richTextBox.Document);
                     notesAction.UpdateNote(LastSelectedNote, noteDocument);
                 }
 
                 INoteItemModel noteInfo = mWnd.notesListBox.SelectedItem as INoteItemModel;
-                FlowDocument displayNoteDocument = FlowDocumentConverter.ConvertBack(notesAction.ReadNote(noteInfo) as XmlDocument);
+                FlowDocument displayNoteDocument = converter.ConvertBack(notesAction.ReadNote(noteInfo) as XmlDocument);
 
                 if(displayNoteDocument != null) mWnd.richTextBox.Document = displayNoteDocument;
 

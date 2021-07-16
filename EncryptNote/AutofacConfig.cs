@@ -18,6 +18,7 @@ namespace EncryptNote
             builder.RegisterType<Models.NoteItemModel>().As<Models.INoteItemModel>();
             builder.RegisterType<Models.DisplayNoteModel>().As<Models.IDisplayNoteModel>();
             builder.RegisterType<NotesAction>().As<INotesAction>();
+            builder.RegisterType<SerializeNote>().As<ISerializeNote>();
 
             GlobalVariables.Container = builder.Build();
             return true;

@@ -11,6 +11,6 @@ namespace EncryptNote.Models
     interface IDisplayNoteModel
     {
         string UniqueID { get; set; }
-        XmlDocument NoteDocument { get; set; }
+        object NoteDocument { get; set; }
     }
 }

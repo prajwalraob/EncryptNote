@@ -53,12 +53,5 @@ namespace EncryptNote.Models
             }
         }
 
-        //public NoteItemModel(string uniqueID, string displayName, DateTime lastUpdated, DateTime created)
-        //{
-        //    this.UniqueID = uniqueID;
-        //    this.DisplayName = displayName;
-        //    this.LastUpdated = lastUpdated;
-        //    this.Created = created;
-        //}
     }
 }

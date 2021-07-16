@@ -33,17 +33,9 @@ namespace EncryptNote
                 displayNote.UniqueID = noteItem.UniqueID;
                 displayNote.NoteDocument = new XmlDocument();
 
-                XmlSerializer displayNoteSerialize = new XmlSerializer(displayNote.GetType());
-                using (FileStream SourceStream = File.Open(Path.Combine(GlobalVariables.NotesDirectory, $"{displayNote.UniqueID}.note"), FileMode.OpenOrCreate))
-                {
-                    displayNoteSerialize.Serialize(SourceStream, displayNote);
-                }
-
-                XmlSerializer noteItemSerialize = new XmlSerializer(noteItem.GetType());
-                using (FileStream SourceStream = File.Open(Path.Combine(GlobalVariables.NotesDirectory, $"{noteItem.UniqueID}.noteinfo"), FileMode.OpenOrCreate))
-                {
-                    noteItemSerialize.Serialize(SourceStream, noteItem);
-                }
+                ISerializeNote serializeNote = scope.Resolve<ISerializeNote>();
+                serializeNote.SerializeNote(displayNote);
+                serializeNote.SerializeNoteinfo(noteItem);
 
                 return noteItem;
             }
@@ -81,7 +73,7 @@ namespace EncryptNote
 
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(Path.Combine(GlobalVariables.NotesDirectory, $"{ note.UniqueID }.note"));
-            XmlNode documentNode = xmlDocument.DocumentElement.SelectSingleNode("/DisplayNoteModel/NoteDocument");
+            XmlNode documentNode = xmlDocument.DocumentElement.SelectSingleNode("/DisplayNoteModel/SerializationNote");
             
             if(documentNode != null)
             {
@@ -99,15 +91,13 @@ namespace EncryptNote
             {
                 IDisplayNoteModel displayNote = scope.Resolve<IDisplayNoteModel>();
                 displayNote.UniqueID = note.UniqueID;
-                displayNote.NoteDocument = noteDocument as XmlDocument;
+                displayNote.NoteDocument = noteDocument;
 
                 File.Delete(Path.Combine(GlobalVariables.NotesDirectory, $"{displayNote.UniqueID}.note"));
-                
-                XmlSerializer displayNoteSerialize = new XmlSerializer(displayNote.GetType());
-                using (FileStream SourceStream = File.Open(Path.Combine(GlobalVariables.NotesDirectory, $"{displayNote.UniqueID}.note"), FileMode.OpenOrCreate))
-                {
-                    displayNoteSerialize.Serialize(SourceStream, displayNote);
-                }
+
+                ISerializeNote serializeNote = scope.Resolve<ISerializeNote>();
+                serializeNote.SerializeNote(displayNote);
+
                 return null;
             }
         }

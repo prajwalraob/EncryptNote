@@ -12,7 +12,8 @@ namespace EncryptNote.Models
     public class DisplayNoteModel : NotifyPropertyChanged, IDisplayNoteModel
     {
         private string _uniqueID;
-        public string UniqueID { 
+        public string UniqueID 
+        { 
             get => _uniqueID;
             set
             {
@@ -21,8 +22,8 @@ namespace EncryptNote.Models
             }
         }
         
-        private XmlDocument _noteDocument;
-        public XmlDocument NoteDocument
+        private object _noteDocument;
+        public object NoteDocument
         { 
             get => _noteDocument;
             set 
@@ -31,11 +32,5 @@ namespace EncryptNote.Models
                 OnPropertyChanged();
             }
         }
-
-        //public DisplayNoteModel(string uniqueID, string noteAsJson)
-        //{
-        //    this.UniqueID = uniqueID;
-        //    this.NoteAsJson = noteAsJson;
-        //}
     }
 }

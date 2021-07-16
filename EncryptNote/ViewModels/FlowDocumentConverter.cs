@@ -9,9 +9,9 @@ using System.Xml;
 
 namespace EncryptNote.ViewModels
 {
-    public static class FlowDocumentConverter
+    public class FlowDocumentConverter
     {
-        public static XmlDocument Convert(FlowDocument flowDocument)
+        public XmlDocument Convert(FlowDocument flowDocument)
         {
             if(flowDocument != null)
             {
@@ -23,7 +23,7 @@ namespace EncryptNote.ViewModels
 
         }
 
-        public static FlowDocument ConvertBack(XmlDocument xmlDocument)
+        public FlowDocument ConvertBack(XmlDocument xmlDocument)
         {
             if(xmlDocument != null)
             {

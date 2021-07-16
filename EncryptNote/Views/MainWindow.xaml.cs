@@ -17,6 +17,7 @@ using Microsoft.Win32;
 using System.Globalization;
 using System.Xml;
 using System.Windows.Markup;
+using System.IO;
 
 namespace EncryptNote.Views
 {
@@ -101,5 +102,5 @@ namespace EncryptNote.Views
             notesListBox.UnselectAll();
         }
     }
-
 }
+
