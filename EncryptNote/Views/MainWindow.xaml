@@ -1,0 +1,138 @@
+﻿<Window x:Class="EncryptNote.Views.MainWindow"
+        x:Name="MainWindowUI"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:local="clr-namespace:EncryptNote.Views"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:EncryptNote.ViewModels"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d" Height="600" Width="1000">
+    
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Info" Command="{Binding MenuInfoClicked}" 
+                      CommandParameter="{Binding ElementName=MainWindowUI}"/>
+        </Menu>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="35*"/>
+                <ColumnDefinition Width="65*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            
+            <DockPanel Grid.Column="0" Grid.RowSpan="2">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                    <Button Content="Add" Margin="5" Command="{Binding AddClickedCommand}" 
+                            CommandParameter="{Binding ElementName=MainWindowUI}"/>
+                    <Button Content="Delete" Margin="5" Command="{Binding DeleteClickedCommand}" 
+                            CommandParameter="{Binding ElementName=MainWindowUI}">
+                        <!--<Button.Style>
+                            <Style>
+                                <Style.Triggers>
+                                    <DataTrigger Binding ="{Binding ElementName=notesListBox,
+                                        Path=SelectedIndex}" Value="-1">
+                                        <Setter Property="Button.IsEnabled" Value="false"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>-->
+                    </Button>
+                </StackPanel>
+                <TextBox DockPanel.Dock="Bottom"/>
+                <ListBox x:Name="notesListBox" DockPanel.Dock="Top" ItemsSource="{Binding NotesDisplay}" SelectionMode="Extended">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding DisplayName}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>                    
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding ListBoxClickedCommand}" CommandParameter="{Binding ElementName=MainWindowUI}"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" CommandParameter="{Binding ElementName=MainWindowUI}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ListBox>
+            </DockPanel>
+            
+            <DockPanel Name="mainPanel" AllowDrop="True" Grid.Column="1">
+                <ToolBar Name="mainToolBar" Height="30" DockPanel.Dock="Top">
+                    <ToolBar.Resources>
+                        <Style TargetType="{x:Type Button}" x:Key="formatTextStyle">
+                            <Setter Property="FontFamily" Value="Palatino Linotype"></Setter>
+                            <Setter Property="Width" Value="30"></Setter>
+                            <Setter Property="FontSize" Value ="14"></Setter>
+                            <Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}"></Setter>
+                        </Style>
+                        <Style TargetType="{x:Type Button}" x:Key="formatImageStyle">
+                            <Setter Property="Width" Value="30"></Setter>
+                            <Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}"></Setter>
+                        </Style>
+                    </ToolBar.Resources>
+                    
+                    <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="Undo">
+                        <Image Source="Icons\undo.png"/>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="Redo">
+                        <Image Source="Icons\redo.png"/>
+                    </Button>
+
+                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
+                        <Image Source="Icons\bold.png"/>
+                    </Button>
+                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Italic">
+                        <Image Source="Icons\italic.png"/>
+                    </Button>
+                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Underline">
+                        <Image Source="Icons\underline.png"/>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Grow Font">
+                        <Image Source="Icons\size-increase.png"/>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Shrink Font">
+                        <Image Source="Icons\size-decrease.png"/>
+                    </Button>
+
+                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleBullets" ToolTip="Bullets">
+                        <Image Source="Icons\list-bullet.png"/>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleNumbering" ToolTip="Numbering">
+                        <Image Source="Icons\list-numbered.png"/>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignLeft" ToolTip="Align Left">
+                        <Image Source="Icons\left-align.png"/>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignCenter" ToolTip="Align Center">
+                        <Image Source="Icons\center-align.png"/>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignRight" ToolTip="Align Right">
+                        <Image Source="Icons\right-align.png"/>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignJustify" ToolTip="Align Justify">
+                        <Image Source="Icons\justified.png"/>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseIndentation" ToolTip="Increase Indent">
+                        <Image Source="Icons\indent.png"/>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseIndentation" ToolTip="Decrease Indent">
+                        <Image Source="Icons\outdent.png"/>
+                    </Button>
+                    <Button Style="{StaticResource formatImageStyle}" Click="Insert_Image_Click" ToolTip="Insert image">
+                        <Image Source="Icons\image.png"/>
+                    </Button>
+                </ToolBar>
+                <RichTextBox Name="richTextBox" AcceptsTab="True" AllowDrop="True"/>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
+</Window>
