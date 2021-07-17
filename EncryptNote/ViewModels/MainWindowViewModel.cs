@@ -12,6 +12,7 @@ using EncryptNote.Views;
 using System.Windows.Documents;
 using System.Xml;
 using System.Windows.Markup;
+using System.Collections;
 
 namespace EncryptNote.ViewModels
 {
@@ -81,7 +82,8 @@ namespace EncryptNote.ViewModels
                 }
 
                 INoteItemModel noteInfo = mWnd.notesListBox.SelectedItem as INoteItemModel;
-                FlowDocument displayNoteDocument = converter.ConvertBack(notesAction.ReadNote(noteInfo) as XmlDocument);
+                XmlDocument noteDocument2 = notesAction.ReadNote(noteInfo) as XmlDocument;
+                FlowDocument displayNoteDocument = converter.ConvertBack(noteDocument2);
 
                 if(displayNoteDocument != null) mWnd.richTextBox.Document = displayNoteDocument;
 
@@ -103,10 +105,16 @@ namespace EncryptNote.ViewModels
         {
             using (var scope = GlobalVariables.Container.BeginLifetimeScope())
             {
-                var items = (wnd as MainWindow).notesListBox.SelectedItems;
+                MainWindow mWnd = wnd as MainWindow;
+                LastSelectedNote = null;
+
+                IList items = mWnd.notesListBox.SelectedItems;
                 INotesAction notesAction = scope.Resolve<INotesAction>();
-                var noteItem = notesAction.DeleteNotes(items.Cast<INoteItemModel>().ToList(), NotesDisplay);
+                ICollection<INoteItemModel> noteItem = notesAction.DeleteNotes(items.Cast<INoteItemModel>().ToList(), NotesDisplay);
                 NotesDisplay = noteItem as ObservableCollection<INoteItemModel>;
+
+                mWnd.notesListBox.SelectedItems.Clear();
+                mWnd.richTextBox.Document = new FlowDocument();
             }
         }
 

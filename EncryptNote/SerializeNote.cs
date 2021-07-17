@@ -21,7 +21,7 @@ namespace EncryptNote
             }
         }
 
-        void ISerializeNote.SerializeNote(IDisplayNoteModel displayNoteModel)
+        public void SerializeNoteDocument(IDisplayNoteModel displayNoteModel)
         {
             SerializationNote serializeNote = new SerializationNote()
             {
@@ -36,11 +36,6 @@ namespace EncryptNote
             }
 
         }
-    }
 
-    public class SerializationNote
-    {
-        public XmlDocument NoteDocument { get; set; }
-        public string UniqueID { get; set; }
     }
 }

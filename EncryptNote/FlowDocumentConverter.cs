@@ -7,7 +7,7 @@ using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Xml;
 
-namespace EncryptNote.ViewModels
+namespace EncryptNote
 {
     public class FlowDocumentConverter
     {

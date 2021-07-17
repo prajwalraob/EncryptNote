@@ -10,7 +10,7 @@ namespace EncryptNote
 {
     interface ISerializeNote
     {
-        void SerializeNote(IDisplayNoteModel displayNoteModel);
+        void SerializeNoteDocument(IDisplayNoteModel displayNoteModel);
         void SerializeNoteinfo(INoteItemModel noteItemModel);        
     }
 }

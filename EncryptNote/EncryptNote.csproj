@@ -119,9 +119,10 @@
     <Compile Include="Models\INoteItemModel.cs" />
     <Compile Include="Models\NoteItemModel.cs" />
     <Compile Include="NotesAction.cs" />
+    <Compile Include="SerializationNote.cs" />
     <Compile Include="SerializeNote.cs" />
     <Compile Include="ViewModels\Command.cs" />
-    <Compile Include="ViewModels\FlowDocumentConverter.cs" />
+    <Compile Include="FlowDocumentConverter.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\NotifyPropertyChanged.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">

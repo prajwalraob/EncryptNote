@@ -29,12 +29,16 @@ namespace EncryptNote
                 noteItem.LastUpdated = DateTime.Now;
                 noteItem.UniqueID = GetUniqueId(16);
 
+                FlowDocumentConverter flowDocumentConverter = new FlowDocumentConverter();
+                FlowDocument flowDocument = new FlowDocument();
+                flowDocument.Blocks.Add(new Paragraph());
+
                 IDisplayNoteModel displayNote = scope.Resolve<IDisplayNoteModel>();
                 displayNote.UniqueID = noteItem.UniqueID;
-                displayNote.NoteDocument = new XmlDocument();
+                displayNote.NoteDocument = flowDocumentConverter.Convert(flowDocument);
 
                 ISerializeNote serializeNote = scope.Resolve<ISerializeNote>();
-                serializeNote.SerializeNote(displayNote);
+                serializeNote.SerializeNoteDocument(displayNote);
                 serializeNote.SerializeNoteinfo(noteItem);
 
                 return noteItem;
@@ -70,18 +74,19 @@ namespace EncryptNote
 
         public object ReadNote(INoteItemModel note)
         {
-
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(Path.Combine(GlobalVariables.NotesDirectory, $"{ note.UniqueID }.note"));
-            XmlNode documentNode = xmlDocument.DocumentElement.SelectSingleNode("/DisplayNoteModel/SerializationNote");
-            
-            if(documentNode != null)
+            if(note != null)
             {
-                XmlDocument newXmlDoc = new XmlDocument();
-                newXmlDoc.LoadXml(documentNode.InnerXml);
-                return newXmlDoc;
-            }
+                XmlDocument xmlDocument = new XmlDocument();
+                xmlDocument.Load(Path.Combine(GlobalVariables.NotesDirectory, $"{ note.UniqueID }.note"));
+                XmlNode documentNode = xmlDocument.DocumentElement.SelectSingleNode("/SerializationNote/NoteDocument");
 
+                if (documentNode != null)
+                {
+                    XmlDocument newXmlDoc = new XmlDocument();
+                    newXmlDoc.LoadXml(documentNode.InnerXml);
+                    return newXmlDoc;
+                }
+            }
             return null;
         }
 
@@ -93,12 +98,20 @@ namespace EncryptNote
                 displayNote.UniqueID = note.UniqueID;
                 displayNote.NoteDocument = noteDocument;
 
+                INoteItemModel noteItem = scope.Resolve<INoteItemModel>();
+                noteItem.Created = DateTime.Now;
+                noteItem.LastUpdated = DateTime.Now;
+                noteItem.UniqueID = note.UniqueID;
+                noteItem.DisplayName = note.DisplayName;
+
                 File.Delete(Path.Combine(GlobalVariables.NotesDirectory, $"{displayNote.UniqueID}.note"));
+                File.Delete(Path.Combine(GlobalVariables.NotesDirectory, $"{noteItem.UniqueID}.noteinfo"));
 
                 ISerializeNote serializeNote = scope.Resolve<ISerializeNote>();
-                serializeNote.SerializeNote(displayNote);
+                serializeNote.SerializeNoteDocument(displayNote);
+                serializeNote.SerializeNoteinfo(noteItem);
 
-                return null;
+                return noteItem;
             }
         }
 
