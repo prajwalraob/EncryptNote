@@ -33,7 +33,7 @@
                             CommandParameter="{Binding ElementName=MainWindowUI}"/>
                     <Button Content="Delete" Margin="5" Command="{Binding DeleteClickedCommand}" 
                             CommandParameter="{Binding ElementName=MainWindowUI}">
-                        <!--<Button.Style>
+                        <Button.Style>
                             <Style>
                                 <Style.Triggers>
                                     <DataTrigger Binding ="{Binding ElementName=notesListBox,
@@ -42,7 +42,7 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </Button.Style>-->
+                        </Button.Style>
                     </Button>
                 </StackPanel>
                 <TextBox DockPanel.Dock="Bottom"/>
@@ -126,9 +126,6 @@
                     </Button>
                     <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseIndentation" ToolTip="Decrease Indent">
                         <Image Source="Icons\outdent.png"/>
-                    </Button>
-                    <Button Style="{StaticResource formatImageStyle}" Click="Insert_Image_Click" ToolTip="Insert image">
-                        <Image Source="Icons\image.png"/>
                     </Button>
                 </ToolBar>
                 <RichTextBox Name="richTextBox" AcceptsTab="True" AllowDrop="True"/>

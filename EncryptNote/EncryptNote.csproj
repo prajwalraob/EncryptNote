@@ -110,10 +110,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AutofacConfig.cs" />
-    <Compile Include="Base85Converter.cs" />
-    <Compile Include="Base85Image.cs" />
     <Compile Include="GlobalVariables.cs" />
-    <Compile Include="Image85Converter.cs" />
     <Compile Include="INotesAction.cs" />
     <Compile Include="ISerializeNote.cs" />
     <Compile Include="Models\DisplayNoteModel.cs" />
