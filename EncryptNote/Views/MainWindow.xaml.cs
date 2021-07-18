@@ -39,25 +39,68 @@ namespace EncryptNote.Views
             e.Handled = false;
         }
 
+
         private void RichTextBox_Drop(object sender, DragEventArgs e)
         {
             string docPath = ((string[])e.Data.GetData(DataFormats.FileDrop))[0];
 
-            var orgdata = Clipboard.GetDataObject();
             BitmapImage bitmap = new BitmapImage(new Uri(docPath));
 
-            var scaleWidth = 150 / bitmap.Width;
-            var scaleHeight = 100 / bitmap.Height;
-            var scaling = Math.Min(scaleWidth, scaleHeight);
-
+            double scaleWidth = 150 / bitmap.Width;
+            double scaleHeight = 100 / bitmap.Height;
+            double scaling = Math.Min(scaleWidth, scaleHeight);
             TransformedBitmap transformedBitmap = new TransformedBitmap(bitmap, new ScaleTransform(scaling, scaling));
 
-            Clipboard.SetImage(transformedBitmap);
-            richTextBox.Paste();
-            EditingCommands.AlignLeft.Execute(true, richTextBox);
+            BitmapEncoder encoder = new JpegBitmapEncoder();
+            byte[] bytes = null;
 
-            Clipboard.SetDataObject(orgdata);
+            if (bitmap is BitmapSource bitmapSource)
+            {
+                encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    encoder.Save(stream);
+                    bytes = stream.ToArray();
+                }
+            }
+
+            Base85Converter base85Converter = new Base85Converter();
+            string encoded = base85Converter.Encode(bytes);
+
+            Base85Image image = new Base85Image
+            {
+                Base85Source = encoded,
+            };
+            Binding binding = new Binding("Base85Source");
+            binding.Converter = new Image85Converter();
+            image.SetBinding(Base85Image.SourceProperty, binding);
+
+            BlockUIContainer container = new BlockUIContainer(image);
+            EditingCommands.AlignLeft.Execute(true, richTextBox);
+            richTextBox.Document.Blocks.Add(container);
         }
+
+        //private void RichTextBox_Drop(object sender, DragEventArgs e)
+        //{
+        //    string docPath = ((string[])e.Data.GetData(DataFormats.FileDrop))[0];
+
+        //    BitmapImage bitmap = new BitmapImage(new Uri(docPath));
+
+        //    double scaleWidth = 150 / bitmap.Width;
+        //    double scaleHeight = 100 / bitmap.Height;
+        //    double scaling = Math.Min(scaleWidth, scaleHeight);
+        //    TransformedBitmap transformedBitmap = new TransformedBitmap(bitmap, new ScaleTransform(scaling, scaling));
+
+        //    Base85Image image = new Base85Image
+        //    {
+        //        Source = bitmap,
+        //    };
+
+        //    BlockUIContainer container = new BlockUIContainer(image);
+        //    EditingCommands.AlignLeft.Execute(true, richTextBox);
+        //    richTextBox.Document.Blocks.Add(container);
+        //}
 
         private void Insert_Image_Click(object sender, RoutedEventArgs e)
         {
