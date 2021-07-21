@@ -110,7 +110,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AutofacConfig.cs" />
+    <Compile Include="CreateConfig.cs" />
+    <Compile Include="GenerateMD5Hash.cs" />
     <Compile Include="GlobalVariables.cs" />
+    <Compile Include="IConfigOperations.cs" />
+    <Compile Include="IGenerateEncryptedHash.cs" />
     <Compile Include="INotesAction.cs" />
     <Compile Include="ISerializeNote.cs" />
     <Compile Include="Models\DisplayNoteModel.cs" />
@@ -122,8 +126,16 @@
     <Compile Include="SerializeNote.cs" />
     <Compile Include="ViewModels\Command.cs" />
     <Compile Include="FlowDocumentConverter.cs" />
+    <Compile Include="ViewModels\CreatePasswordWindowViewModel.cs" />
+    <Compile Include="ViewModels\EnterPasswordWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\NotifyPropertyChanged.cs" />
+    <Compile Include="Views\CreatePasswordWindow.xaml.cs">
+      <DependentUpon>CreatePasswordWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EnterPasswordWindow.xaml.cs">
+      <DependentUpon>EnterPasswordWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -197,6 +209,14 @@
     <Resource Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\CreatePasswordWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EnterPasswordWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

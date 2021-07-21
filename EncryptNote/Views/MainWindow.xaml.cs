@@ -18,6 +18,9 @@ using System.Globalization;
 using System.Xml;
 using System.Windows.Markup;
 using System.IO;
+using System.Xml.Serialization;
+using EncryptNote.Models;
+using Autofac;
 
 namespace EncryptNote.Views
 {
@@ -28,9 +31,31 @@ namespace EncryptNote.Views
     {
         public MainWindow()
         {
+            Initialize();
             InitializeComponent();
         }
 
+        private void Initialize()
+        {
+            using (ILifetimeScope scope = GlobalVariables.Container.BeginLifetimeScope())
+            {
+                Type noteItemModelType = scope.Resolve<INoteItemModel>().GetType();
+                string[] notes = Directory.GetFiles(GlobalVariables.NotesDirectory, "*.noteinfo");
+
+                foreach (string item in notes)
+                {
+                    using (StreamReader streamReader = new StreamReader(item))
+                    {
+                        XmlSerializer xmlSerializer = new XmlSerializer(noteItemModelType);
+                        object noteItem = xmlSerializer.Deserialize(streamReader);
+                        if (noteItem != null)
+                        {
+                            GlobalVariables.NotesList.Add(noteItem as INoteItemModel);
+                        }
+                    }
+                }
+            }
+        }
         private void Listbox_lostFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             notesListBox.UnselectAll();

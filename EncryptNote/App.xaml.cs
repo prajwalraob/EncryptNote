@@ -11,6 +11,7 @@ using EncryptNote.Views;
 using EncryptNote.Models;
 using Autofac;
 using System.Xml.Serialization;
+using Microsoft.Win32;
 
 namespace EncryptNote
 {
@@ -20,34 +21,32 @@ namespace EncryptNote
         {
             AutofacConfig.Config();
 
-            using (var scope = GlobalVariables.Container.BeginLifetimeScope())
+            using (ILifetimeScope scope = GlobalVariables.Container.BeginLifetimeScope())
             {
-                Type T = scope.Resolve<INoteItemModel>().GetType();
-                var notes = Directory.GetFiles(GlobalVariables.NotesDirectory, "*.noteinfo");
+                string s = scope.Resolve<IGenerateEncryptedHash>().Generate("nystr12sft");
 
-                foreach (var item in notes)
-                {                    
-                    using(StreamReader streamReader = new StreamReader(item))
+                RegistryKey regEntry = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\EncryptNote");
+
+                if(regEntry != null)
+                {
+                    object entry = regEntry.GetValue("SecureHash");
+                    if (entry != null)
                     {
-                        XmlSerializer xmlSerializer = new XmlSerializer(T);
-                        var noteItem = xmlSerializer.Deserialize(streamReader) ;
-                        if (noteItem != null)
-                        {
-                            GlobalVariables.NotesList.Add((noteItem as INoteItemModel));
-                        }
+                        EnterPasswordWindow enterPassword = new EnterPasswordWindow(entry.ToString());
+                        enterPassword.ShowDialog();
                     }
-
-                    //string jsonString = File.ReadAllText(item);
-                    //var noteItem = JsonConvert.DeserializeObject(jsonString, T);
-                    //if (noteItem != null)
-                    //{
-                    //    GlobalVariables.NotesList.Add((noteItem as INoteItemModel));
-                    //}
+                    else
+                    {
+                        CreatePasswordWindow createPassword = new CreatePasswordWindow();
+                        createPassword.ShowDialog();
+                    }
+                }
+                else
+                {
+                    CreatePasswordWindow createPassword = new CreatePasswordWindow();
+                    createPassword.ShowDialog();
                 }
             }
-
-            MainWindow wnd = new MainWindow();
-            wnd.ShowDialog();
         }
     }
 
