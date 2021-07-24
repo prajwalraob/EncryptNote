@@ -65,6 +65,16 @@ namespace EncryptNote.Views
         {
             notesListBox.UnselectAll();
         }
+
+        private void PackIconModern_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if(e.LeftButton == MouseButtonState.Pressed) System.Windows.Application.Current.Shutdown();
+        }
+
+        private void StackPanel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed) this.DragMove();
+        }
     }
 }
 

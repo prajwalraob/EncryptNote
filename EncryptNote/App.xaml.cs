@@ -12,6 +12,8 @@ using EncryptNote.Models;
 using Autofac;
 using System.Xml.Serialization;
 using Microsoft.Win32;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace EncryptNote
 {
@@ -23,28 +25,31 @@ namespace EncryptNote
 
             using (ILifetimeScope scope = GlobalVariables.Container.BeginLifetimeScope())
             {
-                string s = scope.Resolve<IGenerateEncryptedHash>().Generate("nystr12sft");
+                //IEncrypt encrypt = scope.Resolve<IEncrypt>();
+                //string password = "nystr12sft";
+
+                //string enc = encrypt.Encrypt("Here be dragons!", password);
+                //string result = encrypt.Decrypt(enc, password);
 
                 RegistryKey regEntry = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\EncryptNote");
-
                 if(regEntry != null)
                 {
                     object entry = regEntry.GetValue("SecureHash");
                     if (entry != null)
                     {
                         EnterPasswordWindow enterPassword = new EnterPasswordWindow(entry.ToString());
-                        enterPassword.ShowDialog();
+                        enterPassword.Show();
                     }
                     else
                     {
                         CreatePasswordWindow createPassword = new CreatePasswordWindow();
-                        createPassword.ShowDialog();
+                        createPassword.Show();
                     }
                 }
                 else
                 {
                     CreatePasswordWindow createPassword = new CreatePasswordWindow();
-                    createPassword.ShowDialog();
+                    createPassword.Show();
                 }
             }
         }

@@ -24,7 +24,6 @@ namespace EncryptNote.ViewModels
         public Command SelectionChangedCommand { get; set; }
         public Command ListBoxClickedCommand { get; set; }
 
-
         private ObservableCollection<INoteItemModel> _notesDisplay;
         public ObservableCollection<INoteItemModel> NotesDisplay
         {

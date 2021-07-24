@@ -7,13 +7,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:EncryptNote.ViewModels"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        mc:Ignorable="d" Height="600" Width="1000">
+        xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"        
+        mc:Ignorable="d" Height="600" Width="1000"
+        Style="{StaticResource DefaultWindowStyle}"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        >
     
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
 
     <DockPanel>
+        <StackPanel DockPanel.Dock="Top" MouseDown="StackPanel_MouseDown">
+            <icons:PackIconModern Grid.Column="1" Margin="5" Style="{StaticResource DefaultIconStyle}" HorizontalAlignment="Right" 
+                              Kind="Close" MouseDown="PackIconModern_MouseDown"/>
+        </StackPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Info" Command="{Binding MenuInfoClicked}" 
                       CommandParameter="{Binding ElementName=MainWindowUI}"/>
@@ -29,12 +38,16 @@
             
             <DockPanel Grid.Column="0" Grid.RowSpan="2">
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                    <Button Content="Add" Margin="5" Command="{Binding AddClickedCommand}" 
+                    <Button Style="{StaticResource DefaultButtonStyle}" Content="Add" Margin="5" 
+                            Width="45" Height="25"
+                            Command="{Binding AddClickedCommand}" 
                             CommandParameter="{Binding ElementName=MainWindowUI}"/>
-                    <Button Content="Delete" Margin="5" Command="{Binding DeleteClickedCommand}" 
+                    <Button Style="{StaticResource DefaultButtonStyle}" Content="Delete" Margin="5" 
+                            Width="65" Height="25"
+                            Command="{Binding DeleteClickedCommand}" 
                             CommandParameter="{Binding ElementName=MainWindowUI}">
-                        <Button.Style>
-                            <Style>
+                        <!--<Button.Style>
+                            <Style BasedOn="{StaticResource Base}">
                                 <Style.Triggers>
                                     <DataTrigger Binding ="{Binding ElementName=notesListBox,
                                         Path=SelectedIndex}" Value="-1">
@@ -42,7 +55,7 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </Button.Style>
+                        </Button.Style>-->
                     </Button>
                 </StackPanel>
                 <TextBox DockPanel.Dock="Bottom"/>

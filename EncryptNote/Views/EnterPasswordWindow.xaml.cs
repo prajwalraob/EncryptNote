@@ -25,5 +25,15 @@ namespace EncryptNote.Views
             InitializeComponent();
             RegistryValue = registryVal;
         }
+
+        private void PackIconModern_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed) System.Windows.Application.Current.Shutdown();
+        }
+
+        private void EnterPasswordWindowUI_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed) this.DragMove();
+        }
     }
 }

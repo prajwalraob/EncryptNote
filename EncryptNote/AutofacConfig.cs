@@ -19,7 +19,9 @@ namespace EncryptNote
             builder.RegisterType<Models.DisplayNoteModel>().As<Models.IDisplayNoteModel>();
             builder.RegisterType<NotesAction>().As<INotesAction>();
             builder.RegisterType<SerializeNote>().As<ISerializeNote>();
-            builder.RegisterType<GenerateMD5Hash>().As<IGenerateEncryptedHash>();
+            //builder.RegisterType<GenerateMD5Hash>().As<IGenerateEncryptedHash>();
+            builder.RegisterType<RijndaleEncryption>().As<IEncrypt>();
+            builder.RegisterType<Base64Converter>().As<IBytearrayToTextConverter>();
 
             GlobalVariables.Container = builder.Build();
             return true;

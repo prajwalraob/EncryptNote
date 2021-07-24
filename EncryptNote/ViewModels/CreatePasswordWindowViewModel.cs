@@ -72,16 +72,18 @@ namespace EncryptNote.ViewModels
             {
                 using (ILifetimeScope scope = GlobalVariables.Container.BeginLifetimeScope())
                 {
-                    string hash = scope.Resolve<IGenerateEncryptedHash>().Generate(password);
+                    string hash = HashFactory.GetHashMethod(HashType.MD5).Generate(password);
                     password = "";
                     reEntered = "";
                     RegistryKey regEntry = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\EncryptNote");
                     regEntry.SetValue("SecureHash", hash);
                     regEntry.Close();
 
-                    createPassword.Hide();
+ 
                     MainWindow mainWindow = new MainWindow();
-                    mainWindow.ShowDialog();
+                    mainWindow.Show();
+                    createPassword.Owner = mainWindow;
+                    createPassword.Close();
                 }
             }
         }

@@ -23,14 +23,15 @@ namespace EncryptNote.ViewModels
             using (ILifetimeScope scope = GlobalVariables.Container.BeginLifetimeScope())
             {
                 EnterPasswordWindow enterPassword = wnd as EnterPasswordWindow;
-                string hash = scope.Resolve<IGenerateEncryptedHash>().Generate(enterPassword.pwdBox.Password);
+                string hash = HashFactory.GetHashMethod(HashType.MD5).Generate(enterPassword.pwdBox.Password);
                 enterPassword.pwdBox.Password = "";
 
                 if(hash == enterPassword.RegistryValue)
                 {
-                    enterPassword.Hide();
                     MainWindow mainWindow = new MainWindow();
-                    mainWindow.ShowDialog();
+                    mainWindow.Show();
+                    enterPassword.Owner = mainWindow;
+                    enterPassword.Close();
                 }
                 else
                 {

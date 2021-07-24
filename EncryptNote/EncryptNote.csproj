@@ -47,6 +47,12 @@
     <Reference Include="Autofac, Version=6.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.6.2.0\lib\netstandard2.0\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Modern.4.8.0\lib\net47\MahApps.Metro.IconPacks.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Modern, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Modern.4.8.0\lib\net47\MahApps.Metro.IconPacks.Modern.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -110,18 +116,25 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AutofacConfig.cs" />
+    <Compile Include="Base64Converter.cs" />
+    <Compile Include="Base85Converter.cs" />
     <Compile Include="CreateConfig.cs" />
     <Compile Include="GenerateMD5Hash.cs" />
+    <Compile Include="GenerateSHA256Hash.cs" />
     <Compile Include="GlobalVariables.cs" />
-    <Compile Include="IConfigOperations.cs" />
-    <Compile Include="IGenerateEncryptedHash.cs" />
-    <Compile Include="INotesAction.cs" />
-    <Compile Include="ISerializeNote.cs" />
+    <Compile Include="HashFactory.cs" />
+    <Compile Include="Interfaces\IBytearrayToTextConverter.cs" />
+    <Compile Include="Interfaces\IConfigOperations.cs" />
+    <Compile Include="Interfaces\IEncrypt.cs" />
+    <Compile Include="Interfaces\IGenerateEncryptedHash.cs" />
+    <Compile Include="Interfaces\INotesAction.cs" />
+    <Compile Include="Interfaces\ISerializeNote.cs" />
     <Compile Include="Models\DisplayNoteModel.cs" />
     <Compile Include="Models\IDisplayNoteModel.cs" />
     <Compile Include="Models\INoteItemModel.cs" />
     <Compile Include="Models\NoteItemModel.cs" />
     <Compile Include="NotesAction.cs" />
+    <Compile Include="RijndaleEncryption.cs" />
     <Compile Include="SerializationNote.cs" />
     <Compile Include="SerializeNote.cs" />
     <Compile Include="ViewModels\Command.cs" />
@@ -218,6 +231,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UiDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
