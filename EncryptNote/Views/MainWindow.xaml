@@ -13,6 +13,11 @@
         AllowsTransparency="True"
         WindowStyle="None"
         >
+    <Window.Resources>
+        <DataTemplate x:Key="ListBoxTemplate">
+            
+        </DataTemplate>
+    </Window.Resources>
     
     <Window.DataContext>
         <vm:MainWindowViewModel/>
@@ -59,7 +64,7 @@
                     </Button>
                 </StackPanel>
                 <TextBox DockPanel.Dock="Bottom"/>
-                <ListBox x:Name="notesListBox" DockPanel.Dock="Top" ItemsSource="{Binding NotesDisplay}" SelectionMode="Extended">
+                <ListBox Style="{StaticResource DefaultListBoxStyle}" x:Name="notesListBox" DockPanel.Dock="Top" ItemsSource="{Binding NotesDisplay}" SelectionMode="Extended">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -79,7 +84,7 @@
             </DockPanel>
             
             <DockPanel Name="mainPanel" AllowDrop="True" Grid.Column="1">
-                <ToolBar Name="mainToolBar" Height="30" DockPanel.Dock="Top">
+                <ToolBar ToolBarTray.IsLocked="True" Style="{StaticResource DefaultToolBarStyle}" Name="mainToolBar" Height="30" DockPanel.Dock="Top">
                     <ToolBar.Resources>
                         <Style TargetType="{x:Type Button}" x:Key="formatTextStyle">
                             <Setter Property="FontFamily" Value="Palatino Linotype"></Setter>
@@ -94,54 +99,58 @@
                     </ToolBar.Resources>
                     
                     <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="Undo">
-                        <Image Source="Icons\undo.png"/>
+                        <icons:PackIconModern Style="{StaticResource DefaultIconStyle}" Kind="UndoCurve"/>
                     </Button>
                     <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="Redo">
-                        <Image Source="Icons\redo.png"/>
+                        <icons:PackIconModern Style="{StaticResource DefaultIconStyle}" Kind="RedoCurve"/>
                     </Button>
 
                     <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
-                        <Image Source="Icons\bold.png"/>
+                        <icons:PackIconModern Style="{StaticResource DefaultIconStyle}" Kind="TextBold"/>
                     </Button>
                     <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Italic">
-                        <Image Source="Icons\italic.png"/>
+                        <icons:PackIconModern Style="{StaticResource DefaultIconStyle}" Kind="TextItalic"/>
                     </Button>
                     <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Underline">
-                        <Image Source="Icons\underline.png"/>
+                        <icons:PackIconModern Style="{StaticResource DefaultIconStyle}" Kind="TextUnderline"/>
                     </Button>
+                    <!--<Button Style="{StaticResource formatTextStyle}" Command="TextDecorations.Strikethrough" ToolTip="Strikethrough">
+                        <icons:PackIconModern Style="{StaticResource DefaultIconStyle}" Kind="TextStrikethrough"/>
+                    </Button>-->
                     <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Grow Font">
-                        <Image Source="Icons\size-increase.png"/>
+                        <icons:PackIconModern Style="{StaticResource DefaultIconStyle}" Kind="TextSizePlus"/>
                     </Button>
                     <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Shrink Font">
-                        <Image Source="Icons\size-decrease.png"/>
+                        <icons:PackIconModern Style="{StaticResource DefaultIconStyle}" Kind="TextSizeMinus"/>
                     </Button>
-
+                    
                     <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleBullets" ToolTip="Bullets">
-                        <Image Source="Icons\list-bullet.png"/>
-                    </Button>
+                        <icons:PackIconMaterialLight Style="{StaticResource DefaultIconStyle2}" Kind="FormatListBulleted"/>
+                    </Button>                    
                     <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleNumbering" ToolTip="Numbering">
-                        <Image Source="Icons\list-numbered.png"/>
-                    </Button>
+                        <icons:PackIconMaterialLight Style="{StaticResource DefaultIconStyle2}" Kind="FormatListNumbers"/>
+                    </Button>                    
                     <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignLeft" ToolTip="Align Left">
-                        <Image Source="Icons\left-align.png"/>
+                        <icons:PackIconMaterialLight Style="{StaticResource DefaultIconStyle2}" Kind="FormatAlignLeft"/>
                     </Button>
                     <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignCenter" ToolTip="Align Center">
-                        <Image Source="Icons\center-align.png"/>
+                        <icons:PackIconMaterialLight Style="{StaticResource DefaultIconStyle2}" Kind="FormatAlignCenter"/>
                     </Button>
                     <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignRight" ToolTip="Align Right">
-                        <Image Source="Icons\right-align.png"/>
+                        <icons:PackIconMaterialLight Style="{StaticResource DefaultIconStyle2}" Kind="FormatAlignRight"/>
                     </Button>
                     <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignJustify" ToolTip="Align Justify">
-                        <Image Source="Icons\justified.png"/>
+                        <icons:PackIconMaterialLight Style="{StaticResource DefaultIconStyle2}" Kind="FormatAlignJustify"/>
                     </Button>
                     <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseIndentation" ToolTip="Increase Indent">
-                        <Image Source="Icons\indent.png"/>
+                        <icons:PackIconModern Style="{StaticResource DefaultIconStyle}" Kind="ArrowLeft"/>
                     </Button>
                     <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseIndentation" ToolTip="Decrease Indent">
-                        <Image Source="Icons\outdent.png"/>
+                        <icons:PackIconModern Style="{StaticResource DefaultIconStyle}" Kind="ArrowRight"/>
                     </Button>
                 </ToolBar>
-                <RichTextBox Name="richTextBox" AcceptsTab="True" AllowDrop="True"/>
+                <RichTextBox Style="{StaticResource NoStyling}" Name="richTextBox" AcceptsTab="True" AllowDrop="True" OverridesDefaultStyle="False"/>
+
             </DockPanel>
         </Grid>
     </DockPanel>
