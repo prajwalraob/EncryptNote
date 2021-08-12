@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
                     xmlns:models="clr-namespace:EncryptNote.Models"
+                    xmlns:views="clr-namespace:EncryptNote.Views"
 >
 
     <!--<Brush x:Key="Carnelian">#ba181b</Brush>
@@ -128,6 +129,9 @@
     </Style>
 
     <Style x:Key="DefaultListBoxStyle" BasedOn="{StaticResource Base}" TargetType="ListBox">
+        <Style.Resources>
+            <views:DateToInteractiveStringConverter x:Key="ItemConverter"/>
+        </Style.Resources>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBox">
@@ -139,15 +143,22 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <!--<Setter Property="ItemTemplate">
+        <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate DataType="{x:Type models:NoteItemModel}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding DisplayName}" />
+                    <StackPanel Height="75" Orientation="Horizontal">
+                        <Border Height="75" Width="75" Background="{StaticResource PrussianBlue}" CornerRadius="10">
+                            <Label Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                   Foreground="{StaticResource Honeydew}" Content="Content"/>
+                        </Border>
+                        <StackPanel Orientation="Vertical" Margin="10">
+                            <Label Height="25" Content="{Binding DisplayName}"/>
+                            <Label Height="30" VerticalContentAlignment="Bottom" Content="{Binding LastUpdated, Converter={StaticResource ItemConverter}}"/>
+                        </StackPanel>
                     </StackPanel>
                 </DataTemplate>
             </Setter.Value>
-        </Setter>-->
+        </Setter>
     </Style>
     
 </ResourceDictionary>

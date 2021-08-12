@@ -64,14 +64,7 @@
                     </Button>
                 </StackPanel>
                 <TextBox DockPanel.Dock="Bottom"/>
-                <ListBox Style="{StaticResource DefaultListBoxStyle}" x:Name="notesListBox" DockPanel.Dock="Top" ItemsSource="{Binding NotesDisplay}" SelectionMode="Extended">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding DisplayName}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>                    
+                <ListBox Style="{StaticResource DefaultListBoxStyle}" x:Name="notesListBox" DockPanel.Dock="Top" ItemsSource="{Binding NotesDisplay}" SelectionMode="Extended" Margin="8,0,-8,0">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseLeftButtonDown">
                             <i:InvokeCommandAction Command="{Binding ListBoxClickedCommand}" CommandParameter="{Binding ElementName=MainWindowUI}"/>

@@ -149,6 +149,7 @@
     <Compile Include="Views\CreatePasswordWindow.xaml.cs">
       <DependentUpon>CreatePasswordWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\DateToInteractiveStringConverter.cs" />
     <Compile Include="Views\EnterPasswordWindow.xaml.cs">
       <DependentUpon>EnterPasswordWindow.xaml</DependentUpon>
     </Compile>
