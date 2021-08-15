@@ -15,8 +15,13 @@
     <Brush x:Key="Honeydew">#f1faee</Brush>
     <Brush x:Key="CeladonBlue">#457b9d</Brush>
 
-    <Style x:Key="NoStyling" TargetType="Control"/>
-
+    <Style x:Key="TestBoxNoStyling" TargetType="Control">
+        <Setter Property="FontStyle" Value="Normal"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FontFamily" Value="Calibri"/>
+        <Setter Property="FontSize"  Value="14"/>
+    </Style>
+       
     <Style x:Key="Base" TargetType="Control">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{StaticResource CeladonBlue}"/>
@@ -30,9 +35,6 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="BorderBrush" Value="{StaticResource PowderBlue}"/>
             </Trigger>
-            <!--<Trigger Property="IsFocused" Value="True">
-                <Setter Property="BorderBrush" Value="{StaticResource PowderBlue}"/>
-            </Trigger>-->
         </Style.Triggers>
     </Style>
 
@@ -135,7 +137,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBox">
-                    <Border Background="{StaticResource Honeydew}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                    <Border Background="{StaticResource Honeydew}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="Transparent">
                         <ScrollViewer Margin="0" Focusable="false">
                             <StackPanel Margin="2" IsItemsHost="True" />
                         </ScrollViewer>
@@ -146,19 +148,67 @@
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate DataType="{x:Type models:NoteItemModel}">
-                    <StackPanel Height="75" Orientation="Horizontal">
-                        <Border Height="75" Width="75" Background="{StaticResource PrussianBlue}" CornerRadius="10">
-                            <Label Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                   Foreground="{StaticResource Honeydew}" Content="Content"/>
+                    <Grid Height="75" Name="ItemGrid">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="75"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Height="75" Width="75" 
+                                Background="{StaticResource PrussianBlue}" CornerRadius="10">
+                            <TextBox Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                     Background="Transparent" Foreground="{StaticResource Honeydew}" 
+                                     Text="{Binding TagLine}" FontWeight="SemiBold" 
+                                     BorderBrush="Transparent" TextWrapping="Wrap" AcceptsReturn="True">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="IsReadOnly" Value="True"/>
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                        <Setter Property="SelectionBrush" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=IsSelected, RelativeSource={
+                                                         RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem }}}"
+                                                         Value="True">
+                                                <Setter Property="IsReadOnly" Value="False"/>
+                                                <Setter Property="SelectionBrush" Value="{StaticResource PowderBlue}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
                         </Border>
-                        <StackPanel Orientation="Vertical" Margin="10">
-                            <Label Height="25" Content="{Binding DisplayName}"/>
-                            <Label Height="30" VerticalContentAlignment="Bottom" Content="{Binding LastUpdated, Converter={StaticResource ItemConverter}}"/>
-                        </StackPanel>
-                    </StackPanel>
+                        <!--<TextBox Grid.Row="0" Grid.Column="1" x:Name="EditTextbox" Text="{Binding DisplayName}">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="IsReadOnly" Value="True"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Foreground" Value="{StaticResource PrussianBlue}"/>
+                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                    --><!--<Style.Triggers>
+                                        <Trigger Property="IsFocused" Value="True">
+                                            <Setter Property="IsReadOnly" Value="False"/>
+                                            <Setter Property="Background" Value="White"/>
+                                        </Trigger>
+                                    </Style.Triggers>--><!--
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>-->
+                        <Label FontWeight="Normal"  Grid.Row="0" Grid.Column="1" Height="25" Content="{Binding DisplayName}"/>
+                        <Label FontWeight="Light" Grid.Row="1" Grid.Column="1" Height="30" VerticalContentAlignment="Bottom" Content="{Binding LastUpdated, Converter={StaticResource ItemConverter}}"/>
+                    </Grid>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="DefaultMenuBarStyle" BasedOn="{StaticResource Base}" TargetType="Menu">
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="BorderBrush" Value="{StaticResource CeladonBlue}"/>
+        <Setter Property="BorderThickness" Value="1"/>
     </Style>
     
 </ResourceDictionary>

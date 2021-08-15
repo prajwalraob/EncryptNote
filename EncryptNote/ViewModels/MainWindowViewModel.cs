@@ -77,6 +77,8 @@ namespace EncryptNote.ViewModels
                 if (LastSelectedNote != null)
                 {
                     XmlDocument noteDocument = converter.Convert(mWnd.richTextBox.Document);
+                    string firtsLine = noteDocument.ChildNodes.Item(0).ChildNodes.Item(0).InnerText;
+                    LastSelectedNote.DisplayName = firtsLine;
                     notesAction.UpdateNote(LastSelectedNote, noteDocument);
                 }
 

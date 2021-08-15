@@ -28,6 +28,7 @@ namespace EncryptNote
                 noteItem.DisplayName = "New Note";
                 noteItem.LastUpdated = DateTime.Now;
                 noteItem.UniqueID = GetUniqueId(16);
+                noteItem.TagLine = "Tag";
 
                 FlowDocumentConverter flowDocumentConverter = new FlowDocumentConverter();
                 FlowDocument flowDocument = new FlowDocument();
@@ -94,22 +95,31 @@ namespace EncryptNote
         {
             using (var scope = GlobalVariables.Container.BeginLifetimeScope())
             {
-                IDisplayNoteModel displayNote = scope.Resolve<IDisplayNoteModel>();
-                displayNote.UniqueID = note.UniqueID;
-                displayNote.NoteDocument = noteDocument;
-
-                INoteItemModel noteItem = scope.Resolve<INoteItemModel>();
-                noteItem.Created = DateTime.Now;
-                noteItem.LastUpdated = DateTime.Now;
-                noteItem.UniqueID = note.UniqueID;
-                noteItem.DisplayName = note.DisplayName;
-
-                File.Delete(Path.Combine(GlobalVariables.NotesDirectory, $"{displayNote.UniqueID}.note"));
-                File.Delete(Path.Combine(GlobalVariables.NotesDirectory, $"{noteItem.UniqueID}.noteinfo"));
-
                 ISerializeNote serializeNote = scope.Resolve<ISerializeNote>();
-                serializeNote.SerializeNoteDocument(displayNote);
-                serializeNote.SerializeNoteinfo(noteItem);
+                INoteItemModel noteItem = scope.Resolve<INoteItemModel>();
+
+                if (note != null)
+                {
+                    noteItem.Created = note.Created;
+                    noteItem.LastUpdated = DateTime.Now;
+                    noteItem.UniqueID = note.UniqueID;
+                    noteItem.DisplayName = note.DisplayName;
+                    noteItem.TagLine = note.TagLine;
+
+                    File.Delete(Path.Combine(GlobalVariables.NotesDirectory, $"{noteItem.UniqueID}.noteinfo"));
+                    serializeNote.SerializeNoteinfo(noteItem);
+                }
+
+                if (noteDocument != null)
+                {
+                    IDisplayNoteModel displayNote = scope.Resolve<IDisplayNoteModel>();
+                    displayNote.UniqueID = note.UniqueID;
+                    displayNote.NoteDocument = noteDocument;
+
+                    File.Delete(Path.Combine(GlobalVariables.NotesDirectory, $"{displayNote.UniqueID}.note"));
+                    serializeNote.SerializeNoteDocument(displayNote);
+
+                }
 
                 return noteItem;
             }

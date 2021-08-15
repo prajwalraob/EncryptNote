@@ -14,9 +14,50 @@
         WindowStyle="None"
         >
     <Window.Resources>
-        <DataTemplate x:Key="ListBoxTemplate">
-            
-        </DataTemplate>
+        <ControlTemplate TargetType="Button" x:Key="AddButton">
+            <Border Height="45" Width="45" CornerRadius="22.5" Background="Transparent"
+                    BorderBrush="{StaticResource CeladonBlue}" BorderThickness="3">
+                <icons:PackIconModern Kind="Add" Foreground="{StaticResource CeladonBlue}"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                      FontWeight="Bold">
+                    <icons:PackIconModern.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </icons:PackIconModern.LayoutTransform>
+                </icons:PackIconModern>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <ControlTemplate TargetType="Button" x:Key="DeleteButton">
+            <Border Height="45" Width="45" CornerRadius="22.5" Background="Transparent"
+                    BorderBrush="{StaticResource CeladonBlue}" BorderThickness="3">
+                <icons:PackIconModern Kind="Delete" Foreground="{StaticResource CeladonBlue}"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                      FontWeight="Bold">
+                    <icons:PackIconModern.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </icons:PackIconModern.LayoutTransform>
+                </icons:PackIconModern>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
     </Window.Resources>
     
     <Window.DataContext>
@@ -24,11 +65,11 @@
     </Window.DataContext>
 
     <DockPanel>
-        <StackPanel DockPanel.Dock="Top" MouseDown="StackPanel_MouseDown">
+        <StackPanel Background="Transparent" DockPanel.Dock="Top" MouseDown="StackPanel_MouseDown">
             <icons:PackIconModern Grid.Column="1" Margin="5" Style="{StaticResource DefaultIconStyle}" HorizontalAlignment="Right" 
                               Kind="Close" MouseDown="PackIconModern_MouseDown"/>
         </StackPanel>
-        <Menu DockPanel.Dock="Top">
+        <Menu DockPanel.Dock="Top" Style="{StaticResource DefaultMenuBarStyle}">
             <MenuItem Header="Info" Command="{Binding MenuInfoClicked}" 
                       CommandParameter="{Binding ElementName=MainWindowUI}"/>
         </Menu>
@@ -43,28 +84,16 @@
             
             <DockPanel Grid.Column="0" Grid.RowSpan="2">
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                    <Button Style="{StaticResource DefaultButtonStyle}" Content="Add" Margin="5" 
-                            Width="45" Height="25"
+                    <Button Template="{StaticResource AddButton}" Margin="5" 
                             Command="{Binding AddClickedCommand}" 
                             CommandParameter="{Binding ElementName=MainWindowUI}"/>
-                    <Button Style="{StaticResource DefaultButtonStyle}" Content="Delete" Margin="5" 
-                            Width="65" Height="25"
+
+                    <Button Template="{StaticResource DeleteButton}" Content="Delete" Margin="5" 
                             Command="{Binding DeleteClickedCommand}" 
-                            CommandParameter="{Binding ElementName=MainWindowUI}">
-                        <!--<Button.Style>
-                            <Style BasedOn="{StaticResource Base}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding ="{Binding ElementName=notesListBox,
-                                        Path=SelectedIndex}" Value="-1">
-                                        <Setter Property="Button.IsEnabled" Value="false"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>-->
-                    </Button>
+                            CommandParameter="{Binding ElementName=MainWindowUI}"/>
+
                 </StackPanel>
-                <TextBox DockPanel.Dock="Bottom"/>
-                <ListBox Style="{StaticResource DefaultListBoxStyle}" x:Name="notesListBox" DockPanel.Dock="Top" ItemsSource="{Binding NotesDisplay}" SelectionMode="Extended" Margin="8,0,-8,0">
+                <ListBox Style="{StaticResource DefaultListBoxStyle}" x:Name="notesListBox" DockPanel.Dock="Top" ItemsSource="{Binding NotesDisplay}" SelectionMode="Extended" Margin="0,10,0,0">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseLeftButtonDown">
                             <i:InvokeCommandAction Command="{Binding ListBoxClickedCommand}" CommandParameter="{Binding ElementName=MainWindowUI}"/>
@@ -142,7 +171,7 @@
                         <icons:PackIconModern Style="{StaticResource DefaultIconStyle}" Kind="ArrowRight"/>
                     </Button>
                 </ToolBar>
-                <RichTextBox Style="{StaticResource NoStyling}" Name="richTextBox" AcceptsTab="True" AllowDrop="True" OverridesDefaultStyle="False"/>
+                <RichTextBox Style="{StaticResource TestBoxNoStyling}" Name="richTextBox" AcceptsTab="True" AllowDrop="True" OverridesDefaultStyle="False"/>
 
             </DockPanel>
         </Grid>

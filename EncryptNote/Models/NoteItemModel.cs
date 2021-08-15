@@ -53,5 +53,18 @@ namespace EncryptNote.Models
             }
         }
 
+        private string _tagLine;
+
+        public string TagLine
+        {
+            get => _tagLine;
+            set
+            {
+                _tagLine = value;
+                OnPropertyChanged();
+            }
+        }
+
+
     }
 }

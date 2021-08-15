@@ -8,5 +8,6 @@ namespace EncryptNote.Models
         DateTime Created { get; set; }
         string DisplayName { get; set; }
         DateTime LastUpdated { get; set; }
+        string TagLine { get; set; }
     }
 }
